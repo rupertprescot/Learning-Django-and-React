@@ -1,2 +1,3 @@
-# Set up a profile containing your AWS credentials in ~/.aws/config and specify it here
-AWS_PROFILE = "profile-name"
+# Set up a profile containing your AWS credentials in ~/.aws/config and specify it here (remove this comment)
+['aws']
+AWS_PROFILE = profile-name
