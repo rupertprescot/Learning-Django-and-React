@@ -3,13 +3,13 @@ import configparser
 import boto3
 
 database = [{
-  'image': 'url',
+  'image': 'Beatrice.jpg',
   'id': '123',
-  'name': 'Name1'
+  'name': 'Beatrice'
 }, {
-  'image': 'url',
+  'image': 'Sonia.jpg',
   'id': '568',
-  'name': 'Name2'
+  'name': 'Sonia'
 }]
 
 config = configparser.ConfigParser()
@@ -27,16 +27,20 @@ def create_collection():
 
 def index():
   for faceData in database:
-    image = open(faceData['image'], 'rb')
+    # image = open(faceData['image'], 'rb')
     indexing_response = client.index_faces(
       CollectionId='HackDayFaces',
       Image={
-        'Bytes': image.read()
+        # 'Bytes': image.read()
+        'S3Object': {
+          'Bucket': 'com-elsevier-hackdays-march-2019-faces-emma-rupert',
+          'Name': faceData['image']
+        }
       },
       ExternalImageId=faceData['name']
     )
     print(indexing_response)
-    image.close()
+    # image.close()
 
 
 def deleteCollection(id):
@@ -45,8 +49,8 @@ def deleteCollection(id):
 
 
 if __name__ == '__main__':
-  create_collection()
-  # index()
+  # create_collection()
+  index()
   # deleteCollection('HackDayFaces')
   # aws:rekognition:eu-west-1:324315958165:collection/HackDayFaces
   # {'FaceRecords': [{'Face': {'FaceId': '253ec7f3-d829-4f06-9f7a-35fb1fe87a84', 'BoundingBox': {'Width': 0.3334830403327942, 'Height': 0.452055960893631, 'Left': 0.35590916872024536, 'Top': 0.1682734191417694}, 'ImageId': '666122bd-6fe4-34fa-a521-c75f6eca59dc', 'ExternalImageId': 'Sonia', 'Confidence': 100.0}, 'FaceDetail': {'BoundingBox': {'Width': 0.3334830403327942, 'Height': 0.452055960893631, 'Left': 0.35590916872024536, 'Top': 0.1682734191417694}, 'Landmarks': [{'Type': 'eyeLeft', 'X': 0.4154892563819885, 'Y': 0.36682990193367004}, {'Type': 'eyeRight', 'X': 0.555491030216217, 'Y': 0.33295175433158875}, {'Type': 'mouthLeft', 'X': 0.4649885892868042, 'Y': 0.506281316280365}, {'Type': 'mouthRight', 'X': 0.5812823176383972, 'Y': 0.4785038232803345}, {'Type': 'nose', 'X': 0.49358057975769043, 'Y': 0.4298785924911499}], 'Pose': {'Roll': -18.490812301635742, 'Yaw': -17.797761917114258, 'Pitch': 2.1784143447875977}, 'Quality': {'Brightness': 69.29369354248047, 'Sharpness': 46.02980041503906}, 'Confidence': 100.0}}], 'FaceModelVersion': '4.0', 'UnindexedFaces': [], 'ResponseMetadata': {'RequestId': '2c3c532f-4990-11e9-ab15-f1f17285a3a2', 'HTTPStatusCode': 200, 'HTTPHeaders': {'content-type': 'application/x-amz-json-1.1', 'date': 'Mon, 18 Mar 2019 15:11:57 GMT', 'x-amzn-requestid': '2c3c532f-4990-11e9-ab15-f1f17285a3a2', 'content-length': '998', 'connection': 'keep-alive'}, 'RetryAttempts': 0}}

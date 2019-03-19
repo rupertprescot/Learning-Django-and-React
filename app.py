@@ -1,4 +1,3 @@
-import base64
 import configparser
 from pprint import pprint
 
@@ -11,7 +10,7 @@ config = configparser.ConfigParser()
 config.read('settings.cfg')
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-session = boto3.Session(profile_name=app.config['aws']['AWS_PROFILE'])
+session = boto3.Session(profile_name=config['aws']['AWS_PROFILE'])
 client = session.client('rekognition')
 
 
